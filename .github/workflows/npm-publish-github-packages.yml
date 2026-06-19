@@ -1,0 +1,36 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Node.js Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    පියවර :
+      - භාවිත : actions/checkout@v4
+      - භාවිතා කරයි : actions/setup-node@v4
+        සමඟ :
+          නෝඩ්-අනුවාදය : 20
+      - ධාවනය : npm ci
+      - ධාවනය : npm පරීක්ෂණය
+
+  ප්‍රකාශන-ජීපීආර් :
+    අවශ්‍යතා : ගොඩනැගීම
+    ධාවනය - ඔන් : උබුන්ටු-නවතම
+    අවසර :
+      අන්තර්ගතය : කියවන්න
+      පැකේජ : ලියන්න
+    පියවර :
+      - භාවිත : actions/checkout@v4
+      - භාවිතා කරයි : actions/setup-node@v4
+        සමඟ :
+          නෝඩ්-අනුවාදය : 20
+          රෙජිස්ට්‍රි-url : https : //npm.pkg.github.com/
+      - ධාවනය : npm ci
+      - ධාවනය : npm ප්‍රකාශනය
+        පරිසරය :
+          NODE_AUTH_TOKEN : $ { { රහස්.GITHUB_TOKEN } }
