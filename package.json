@@ -1,0 +1,13 @@
+{
+  "name": "site-bot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/bot.js",
+    "test": "echo \"no tests\""
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "playwright": "^1.40.0"
+  }
+}
