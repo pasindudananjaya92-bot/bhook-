@@ -1,10 +1,10 @@
- name: Node.js Package
+name: Node.js Package
 
 on:
-  release:
-    types: [created]
   push:
     branches: [ "main" ]
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -34,3 +34,4 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ 
