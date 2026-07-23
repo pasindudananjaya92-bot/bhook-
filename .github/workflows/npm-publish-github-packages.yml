@@ -1,3 +1,19 @@
+ ## 📸 Screenshot Analysis
+
+**Repository:** `pasindudananjaya92-bot/bhook-`
+**Workflow File:** `.github/workflows/npm-publish-github-packages.yml`
+**Scope:** `@pasindudananjaya92-bot`
+**Registry:** `https://npm.pkg.github.com/`
+
+> ⚠️ **Identified Issues:** `node-version: 20` (deprecated) is used in the screenshot. Node.js should be updated to 22.
+
+---
+
+## ✅ Fixed GitHub Actions Workflow YAML
+
+> 📋 **Copy and paste into `.github/workflows/npm-publish-github-packages.yml` file:**
+
+```yaml
 name: Node.js Package
 
 on:
@@ -9,10 +25,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm ci
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (optional - if there is a build script in package.json)
+        run: npm run build --if-present
 
   publish-gpr:
     needs: build
@@ -22,13 +44,58 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@pasindudananjaya92-bot'
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- 
+with:
+node-version: '22'
+registry-url: 'https://npm.pkg.github.com/'
+scope: '@pasindudananjaya92-bot'
+
+- name: Install dependencies
+run: npm ci
+
+- name: Publish to GitHub Packages
+run: npm publish
+env:
+NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+## 🔧 Changes made in Sinhala
+
+| Difference | Old | New |
+|---|---|---|
+| **Node.js Version** | `20` (deprecated ⚠️) | `'22'` ✅ |
+| **Build step** | None | `npm run build --if-present` ✅ |
+| **Step names** | None | readable names ✅ |
+| **Checkout** | `@v4` ✅ | `@v4` ✅ (same) |
+| **setup-node** | `@v4` ✅ | `@v4` ✅ (same) |
+
+---
+
+## 📌 Check package.json
+
+Confirm that your `package.json` file contains these fields:
+
+```json
+{
+"name": "@pasindudananjaya92-bot/bhook-",
+"version": "1.0.0",
+"publishConfig": {
+"registry": "https://npm.pkg.github.com/"
+}
+}
+```
+
+> ⚠️ Confirm that the `name` field includes **scope** (`@pasindudananjaya92-bot/`). Otherwise, the publish will fail!
+
+---
+
+## 🚀 Steps
+
+1. Open GitHub repository → `.github/workflows/npm-publish-github-packages.yml`
+2. **copy** the above YAML code
+3. **paste** it in the file editor
+4. Click **Commit changes**
+5. Actions tab → workflow re-run ✅
